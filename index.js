@@ -74,7 +74,6 @@ function Omx (source, output, loop, initialVolume, showOsd) {
 	function spawnPlayer (src, out, loop, initialVolume, showOsd) {
 
 		let args = buildArgs(src, out, loop, initialVolume, showOsd);
-		console.log('args for omxplayer:', args);
 		let omxProcess = spawn('omxplayer', args);
 		open = true;
 
