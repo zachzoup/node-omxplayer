@@ -35,17 +35,7 @@ function buildArgs (source, givenOutput, loop, initialVolume, showOsd) {
 		osd = showOsd;
 	}
 
-	let args = [source, '-o', output, '--blank', osd ? '' : '--no-osd'];
-
-	// Handle the loop argument, if provided
-	if (loop) {
-		args.push('--loop');
-	}
-
-	// Handle the initial volume argument, if provided
-	if (Number.isInteger(initialVolume)) {
-		args.push('--vol', initialVolume);
-	}
+	let args = [source, '-o', output, '--blank', '--no-osd', '--loop', '--orientation=90'];
 
 	return args;
 
