@@ -30,7 +30,8 @@ function buildArgs (source, givenOutput, loop, layer) {
 		output = 'local';
 	}
 
-	let args = [source, '-o', output, '--blank', '--no-osd', '--orientation=90', '--blank=FFFFFFFF'];
+	//let args = [source, '-o', output, '--blank', '--no-osd', '--orientation=90', '--blank=FFFFFFFF'];
+	let args = [source, '-o', output, '--blank', '--no-osd', '--blank=FFFFFFFF'];
 	if (loop) {
 		args.push(`--loop`);
 	}
@@ -44,7 +45,7 @@ function buildArgs (source, givenOutput, loop, layer) {
 
 // ----- Omx Class ----- //
 
-function Omx (source, givenOutput, loop, layer) {
+function Omx (source, output, loop, layer) {
 
 	// ----- Local Vars ----- //
 
