@@ -1,19 +1,13 @@
 'use strict';
 
 // ----- Requires ----- //
-
-let spawn = require('child_process').spawn;
+const cp = require('child_process');
+let { spawn } = cp;
 let EventEmitter = require('events');
-
-
 // ----- Setup ----- //
-
 // The permitted audio outputs, local means via the 3.5mm jack.
 let ALLOWED_OUTPUTS = ['hdmi', 'local', 'both', 'alsa'];
-
-
 // ----- Functions ----- //
-
 // Creates an array of arguments to pass to omxplayer.
 function buildArgs (source, givenOutput, loop, layer) {
 	let output = '';
@@ -31,7 +25,7 @@ function buildArgs (source, givenOutput, loop, layer) {
 	}
 
 	//let args = [source, '-o', output, '--blank', '--no-osd', '--orientation=90', '--blank=FFFFFFFF'];
-	let args = [source, '-o', output, '--blank', '--no-osd', '--blank=FFFFFFFF'];
+	let args = [source, '-o', output, '-g /home/pi/omxplayer.log', '--no-osd', '--blank=FFFFFFFF'];
 	if (loop) {
 		args.push(`--loop`);
 	}
@@ -76,28 +70,23 @@ function Omx (source, output, loop, layer) {
 
 		let args = buildArgs(src, out, loop, layer);
 		let omxProcess = spawn('omxplayer', args);
+		//let omxProcess = cp.exec(`omxplayer ${args.join(' ')}`);
 		open = true;
-
 		omxProcess.stdin.setEncoding('utf-8');
 		omxProcess.on('close', updateStatus);
-
 		omxProcess.on('error', () => {
 			emitError('Problem running omxplayer, is it installed?.');
 		});
-
 		return omxProcess;
-
 	}
 
 	// Simulates keypress to provide control.
 	function writeStdin (value) {
-
 		if (open) {
 			player.stdin.write(value);
 		} else {
 			throw new Error('Player is closed.');
 		}
-
 	}
 
 	// ----- Setup ----- //
